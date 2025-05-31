@@ -4,5 +4,6 @@ BC OSINT - це OSINT програмне забезпечення для зна�
 ## Встановлення
 ```bash
 git clone https://github.com/basebody/BC-OSINT.git
+cd BC-OSINT
 pip install -r requirements.txt
 python main.py
