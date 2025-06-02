@@ -25,37 +25,60 @@ def load_csv(filename):
         print(Fore.RED + f"Файл {filename} не знайдено.")
         sys.exit(1)
 
+
+ascii_art = """
+█████╗  ██████╗      ██████╗ ███████╗██╗███╗   ██╗████████╗
+██╔══██╗██╔════╝    ██╔═══██╗██╔════╝██║████╗  ██║╚══██╔══╝
+██████╔╝██║         ██║   ██║███████╗██║██╔██╗ ██║   ██║
+██╔══██╗██║         ██║   ██║╚════██║██║██║╚██╗██║   ██║
+██████╔╝╚██████╗    ╚██████╔╝███████║██║██║ ╚████║   ██║
+╚═════╝  ╚═════╝     ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝   ╚═╝
+""".strip().split('\n')
+
+# Оттенки от тёмно-красного к ярко-красному (можно расширить)
+red_shades = [52, 88, 124, 160, 196, 203, 210]
+
+def print_ascii_with_gradient(lines):
+    total_lines = len(lines)
+    max_steps = len(red_shades)
+    step = max_steps / total_lines
+
+    for i, line in enumerate(lines):
+        color_index = red_shades[min(int(i * step), max_steps - 1)]
+        print(f'\033[38;5;{color_index}m{line}{Style.RESET_ALL}')
+
 def show_menu():
-    print("\nОберіть дію:")
-    print("1. Показати всі записи")
-    print("2. Пошук за іменем")
-    print("3. Пошук за школою")
-    print("4. Пошук за номером телефону")
-    print("5. Пошук за ПІБ (Прізвище Ім’я По батькові)")
-    print("6. Пошук за посиланням на TikTok")
-    print("7. Вихід")
+    print(Fore.RED + "\nОберіть дію:")
+    print(Fore.RED + "1. Показати всі записи")
+    print(Fore.RED + "2. Пошук за іменем")
+    print(Fore.RED + "3. Пошук за школою")
+    print(Fore.RED + "4. Пошук за номером телефону")
+    print(Fore.RED + "5. Пошук за ПІБ (Прізвище Ім’я По батькові)")
+    print(Fore.RED + "6. Пошук за посиланням на TikTok")
+    print(Fore.RED + "7. Вихід")
 
 # Печать полной информации о человеке
 def print_full_info(row):
     print("-" * 40)
-    print(f"ПІБ: {row['Прізвище']} {row['Ім\'я']} {row['По-батькові'] if row['По-батькові'] != "-" else ''}")
-    print_if_exists("День народження", row['Дата народження'])
-    print_if_exists("Телефон", row['Номер телефону'])
-    print_if_exists("Місто", row['Місто'])
-    print_if_exists("Адреса", row['Адресса'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "ID", row['ID'])
+    print(Fore.LIGHTRED_EX + "[+] " + f"ПІБ: {row['Прізвище']} {row['Ім\'я']} {row['По-батькові'] if row['По-батькові'] != "-" else ''}")
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "День народження", row['Дата народження'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Телефон", row['Номер телефону'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Місто", row['Місто'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Адреса", row['Адресса'])
     # print_if_exists("Телеграм юзернейм", row['Телеграм'])
-    print_if_exists("Тікток аккаунт", row['Тікток'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Тікток аккаунт", row['Тікток'])
     # print_if_exists("Супруг/Супруга", row['Супруг'])
-    print_if_exists("ПІБ мами", row['Мати'])
-    print_if_exists("Телефон мами", row['Телефон мати'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "ПІБ мами", row['Мати'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Телефон мами", row['Телефон мати'])
     # print_if_exists("Дата народження мами", row['Дата народження мами'])
-    print_if_exists("ПІБ батька", row['Батько'])
-    print_if_exists("Телефон батька", row['Телефон батька'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "ПІБ батька", row['Батько'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Телефон батька", row['Телефон батька'])
     # print_if_exists("Дата народження батька", row['Дата народження батька'])
-    print_if_exists("Статус", row['Статус'])
-    print_if_exists("Предмети", row['Предмети'])
-    print_if_exists("Місце навчання", row['Школа'])
-    print_if_exists("Клас", row['Клас'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Статус", row['Статус'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Предмети", row['Предмети'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Місце навчання", row['Школа'])
+    print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Клас", row['Клас'])
     # print_if_exists("Лице", row['Лице'])
     # print_if_exists("Стаття DoxBin", row['Стаття doxbin'])
     print("-" * 40 + "\n")
@@ -72,27 +95,15 @@ def search_by_key(data, key, value):
 
 def main():
     clear()
-    print("""
-██████╗  ██████╗     ██████╗ ███████╗██╗███╗   ██╗████████╗
-██╔══██╗██╔════╝    ██╔═══██╗██╔════╝██║████╗  ██║╚══██╔══╝
-██████╔╝██║         ██║   ██║███████╗██║██╔██╗ ██║   ██║   
-██╔══██╗██║         ██║   ██║╚════██║██║██║╚██╗██║   ██║   
-██████╔╝╚██████╗    ╚██████╔╝███████║██║██║ ╚████║   ██║   
-╚═════╝  ╚═════╝     ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝   ╚═╝   """)
+    print_ascii_with_gradient(ascii_art)
     print(Fore.CYAN + "Завантаження даних з CSV...")
     data = load_csv('data.csv')
     
     while True:
         clear()
-        print("""
-██████╗  ██████╗     ██████╗ ███████╗██╗███╗   ██╗████████╗
-██╔══██╗██╔════╝    ██╔═══██╗██╔════╝██║████╗  ██║╚══██╔══╝
-██████╔╝██║         ██║   ██║███████╗██║██╔██╗ ██║   ██║   
-██╔══██╗██║         ██║   ██║╚════██║██║██║╚██╗██║   ██║   
-██████╔╝╚██████╗    ╚██████╔╝███████║██║██║ ╚████║   ██║   
-╚═════╝  ╚═════╝     ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝   ╚═╝   """)
+        print_ascii_with_gradient(ascii_art)
         show_menu()
-        choice = input("Введіть номер опції: ")
+        choice = input(Fore.LIGHTRED_EX + "Введіть номер опції: ")
 
         if choice == '1':
             for row in data:
@@ -138,7 +149,7 @@ def main():
         else:
             print(Fore.RED + "Невірний вибір. Спробуйте ще раз.")
 
-        input("\nНатисніть Enter для продовження...")
+        input(Fore.LIGHTRED_EX + "\nНатисніть Enter для продовження...")
 
 if __name__ == '__main__':
     main()
