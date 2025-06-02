@@ -1,6 +1,7 @@
 import csv
 import os
 import sys
+from datetime import date
 from colorama import *
 
 # Инициализация colorama
@@ -63,6 +64,7 @@ def print_full_info(row):
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "ID", row['ID'])
     print(Fore.LIGHTRED_EX + "[+] " + f"ПІБ: {row['Прізвище']} {row['Ім\'я']} {row['По-батькові'] if row['По-батькові'] != "-" else ''}")
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "День народження", row['Дата народження'])
+    print(Fore.LIGHTRED_EX + "[+] " + f"Рік народження: {date.today().year - int(''.join(filter(str.isdigit, row["Клас"]))) - 6}")
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Телефон", row['Номер телефону'])
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Місто", row['Місто'])
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Адреса", row['Адресса'])
