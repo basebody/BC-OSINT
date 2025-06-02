@@ -9,7 +9,7 @@ init(autoreset=True)
 
 # Выводит, если значение есть
 def print_if_exists(label, value): 
-    if value and value.strip() != '-' and value.strip() != '':
+    if value and value.strip() != '':
         print(f"{label}: {value}")
 
 
@@ -62,9 +62,9 @@ def show_menu():
 def print_full_info(row):
     print("-" * 40)
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "ID", row['ID'])
-    print(Fore.LIGHTRED_EX + "[+] " + f"ПІБ: {row['Прізвище']} {row['Ім\'я']} {row['По-батькові'] if row['По-батькові'] != "-" else ''}")
+    print(Fore.LIGHTRED_EX + "[+] " + f"ПІБ: {row['Прізвище']} {row['Ім\'я']} {row['По-батькові'] if row['По-батькові'] != "" else ''}")
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "День народження", row['Дата народження'])
-    print(Fore.LIGHTRED_EX + "[+] " + f"Рік народження: {date.today().year - int(''.join(filter(str.isdigit, row["Клас"]))) - 6}")
+    print(Fore.LIGHTRED_EX + "[+] " + f"Рік народження: {date.today().year - int(''.join(filter(str.isdigit, row["Клас"]))) - 6 if row['Клас'] != "" else ''}")
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Телефон", row['Номер телефону'])
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Місто", row['Місто'])
     print_if_exists(Fore.LIGHTRED_EX + "[+] " + "Адреса", row['Адресса'])
